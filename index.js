@@ -14,6 +14,7 @@ configDotenv();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const BASE_URL = process.env.BASE_URL;
 
 app.use(express.json());
 app.use(
@@ -23,9 +24,9 @@ app.use(
 );
 app.use(mongoSanitize());
 
-app.use("/api/v1/sellers", sellerRoutes);
-app.use("/api/v1/stores", storeRoutes);
-app.use("/api/v1/sales", saleRoutes);
+app.use(`${BASE_URL}/sellers`, sellerRoutes);
+app.use(`${BASE_URL}/stores`, storeRoutes);
+app.use(`${BASE_URL}/sales`, saleRoutes);
 
 app.use((req, res) => {
   res.status(STATUS_CODES.NOT_FOUND).send(MESSAGES.NOT_FOUND);
