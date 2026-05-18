@@ -8,8 +8,6 @@ import sellerRoutes from "./routes/sellers.js";
 import storeRoutes from "./routes/stores.js";
 import saleRoutes from "./routes/sales.js";
 
-import { ROUTES, STATUS_CODES, MESSAGES } from "./common/index.js";
-
 configDotenv();
 
 const app = express();
@@ -28,8 +26,9 @@ app.use(`${BASE_URL}/sellers`, sellerRoutes);
 app.use(`${BASE_URL}/stores`, storeRoutes);
 app.use(`${BASE_URL}/sales`, saleRoutes);
 
+//404 handler
 app.use((req, res) => {
-  res.status(STATUS_CODES.NOT_FOUND).send(MESSAGES.NOT_FOUND);
+  res.status(404).send("not found");
 });
 
 const startServer = async () => {
