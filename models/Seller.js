@@ -1,0 +1,43 @@
+import mongoose from "mongoose";
+
+const sellerSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+  },
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    lowercase: true,
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please provide a valid email",
+    ],
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone is required"],
+  },
+  status: {
+    type: Number,
+    enum: [0, 1],
+    default: 1,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Update updatedAt on save
+sellerSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+export default mongoose.model("Seller", sellerSchema);
