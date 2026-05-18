@@ -2,9 +2,15 @@ import Sale from "../models/Sale.js";
 import Seller from "../models/Seller.js";
 import Store from "../models/Store.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-
+import { isValidObjectId } from "../utils/is_valid_objectid.js";
 // Create sale
 export const createSale = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.body.sellerId)) {
+    return res.status(400).send("Invalid seller ID");
+  }
+  if (!isValidObjectId(req.body.storeId)) {
+    return res.status(400).send("Invalid store ID");
+  }
   // Verify seller exists
   const seller = await Seller.findById(req.body.sellerId);
   if (!seller || seller.status === 0) {
@@ -44,10 +50,10 @@ export const getAllSales = asyncHandler(async (req, res) => {
   let query = { status: 1 };
 
   // Filtering
-  if (req.query.storeId) {
+  if (req.query.storeId && isValidObjectId(req.query.storeId)) {
     query.storeId = req.query.storeId;
   }
-  if (req.query.sellerId) {
+  if (req.query.sellerId && isValidObjectId(req.query.sellerId)) {
     query.sellerId = req.query.sellerId;
   }
   if (req.query.dateFrom || req.query.dateTo) {
@@ -86,6 +92,9 @@ export const getAllSales = asyncHandler(async (req, res) => {
 
 // Get single sale
 export const getSale = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid sale ID");
+  }
   const sale = await Sale.findById(req.params.id)
     .populate("sellerId")
     .populate("storeId");
@@ -105,6 +114,9 @@ export const getSale = asyncHandler(async (req, res) => {
 
 // Update sale (PATCH)
 export const updateSale = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid sale ID");
+  }
   let sale = await Sale.findById(req.params.id);
 
   if (!sale || sale.status === 0) {
@@ -147,6 +159,9 @@ export const updateSale = asyncHandler(async (req, res) => {
 
 // Soft delete sale (set status to 0)
 export const deleteSale = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid sale ID");
+  }
   let sale = await Sale.findById(req.params.id);
 
   if (!sale || sale.status === 0) {

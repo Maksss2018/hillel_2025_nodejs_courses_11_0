@@ -1,6 +1,6 @@
 import Store from "../models/Store.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-
+import { isValidObjectId } from "../utils/is_valid_objectid.js";
 // Create store
 export const createStore = asyncHandler(async (req, res) => {
   const store = new Store({
@@ -28,6 +28,9 @@ export const getAllStores = asyncHandler(async (req, res) => {
 
 // Get single store
 export const getStore = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid store ID");
+  }
   const store = await Store.findById(req.params.id);
 
   if (!store || store.status === 0) {
@@ -45,6 +48,9 @@ export const getStore = asyncHandler(async (req, res) => {
 
 // Update store
 export const updateStore = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid store ID");
+  }
   let store = await Store.findById(req.params.id);
 
   if (!store || store.status === 0) {
@@ -68,6 +74,9 @@ export const updateStore = asyncHandler(async (req, res) => {
 
 // Soft delete store (set status to 0)
 export const deleteStore = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid store ID");
+  }
   let store = await Store.findById(req.params.id);
 
   if (!store || store.status === 0) {

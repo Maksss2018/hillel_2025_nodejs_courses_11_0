@@ -29,6 +29,9 @@ export const getAllSellers = asyncHandler(async (req, res) => {
 
 // Get single seller
 export const getSeller = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid seller ID");
+  }
   const seller = await Seller.findById(req.params.id);
 
   if (!seller || seller.status === 0) {
@@ -46,6 +49,9 @@ export const getSeller = asyncHandler(async (req, res) => {
 
 // Update seller
 export const updateSeller = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid seller ID");
+  }
   let seller = await Seller.findById(req.params.id);
 
   if (!seller || seller.status === 0) {
@@ -70,6 +76,9 @@ export const updateSeller = asyncHandler(async (req, res) => {
 
 // Soft delete seller (set status to 0)
 export const deleteSeller = asyncHandler(async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).send("Invalid seller ID");
+  }
   let seller = await Seller.findById(req.params.id);
 
   if (!seller || seller.status === 0) {
