@@ -1,0 +1,32 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maksss2018/hillel_2025_nodejs_courses_11_0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.2.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "mongoose": "^9.5.0",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "bugs": {
+    "url": "https://github.com/Maksss2018/hillel_2025_nodejs_courses_11_0/issues"
+  }
+}
