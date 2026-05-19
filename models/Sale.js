@@ -21,6 +21,10 @@ const saleSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Items count is required"],
       min: [1, "Items count must be at least 1"],
+      validate: {
+        validator: Number.isInteger,
+        message: "itemsCount must be an integer",
+      },
     },
     status: {
       type: Number,

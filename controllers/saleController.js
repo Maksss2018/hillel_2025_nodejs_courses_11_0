@@ -11,8 +11,12 @@ export const createSale = asyncHandler(async (req, res) => {
   if (!isValidObjectId(req.body.storeId)) {
     return res.status(400).send("Invalid store ID");
   }
-  // Verify seller exists
-  const seller = await Seller.findById(req.body.sellerId);
+
+  const [seller, store] = await Promise.all([
+    Seller.findById(req.body.sellerId),
+    Store.findById(req.body.storeId),
+  ]);
+
   if (!seller || seller.status === 0) {
     return res.status(404).json({
       status: "error",
@@ -20,8 +24,6 @@ export const createSale = asyncHandler(async (req, res) => {
     });
   }
 
-  // Verify store exists
-  const store = await Store.findById(req.body.storeId);
   if (!store || store.status === 0) {
     return res.status(404).json({
       status: "error",
